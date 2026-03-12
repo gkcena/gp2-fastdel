@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Assign Courier</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Select Courier</mat-label>
+    <mat-select [formControl]="courierControl">
+      @for (c of data.couriers; track c.id) {
+        <mat-option [value]="c.id">{{ c.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onAssign()" [disabled]="!courierControl.value">Assign</button>
+</mat-dialog-actions>

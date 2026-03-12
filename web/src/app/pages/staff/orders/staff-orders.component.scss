@@ -1,0 +1,68 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field { width: 280px; }
+.spinner-wrap { display: flex; justify-content: center; padding: 80px; }
+
+.table-wrap {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+}
+
+table { width: 100%; }
+
+.barcode-chip {
+  background: var(--border-light);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.address-cell {
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.status-pending    { background: #fff7ed; color: #c2410c; }
+.status-assigned   { background: #eff6ff; color: #1d4ed8; }
+.status-in-transit { background: #f5f3ff; color: #6d28d9; }
+.status-delivered  { background: #ecfdf5; color: #059669; }
+.status-failed     { background: #fef2f2; color: #b91c1c; }
+.status-returned   { background: #f1f5f9; color: #475569; }

@@ -1,0 +1,86 @@
+@if (loading) {
+  <div class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+} @else {
+<div class="profile-page">
+  <mat-card class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-wrapper">
+        @if (displayPhoto) {
+          <img [src]="displayPhoto" alt="Profile photo" class="avatar-img">
+        } @else {
+          <div class="avatar-initials">{{ userInitial }}</div>
+        }
+        <button mat-icon-button class="avatar-edit-btn" (click)="fileInput.click()">
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+        <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)">
+      </div>
+      <div class="header-info">
+        <h2 class="display-name">{{ userName }}</h2>
+        <span class="display-email">{{ userEmail }}</span>
+        <span class="role-chip">ADMIN</span>
+      </div>
+      @if (pendingPhoto) {
+        <button mat-raised-button color="primary" class="save-photo-btn"
+                (click)="savePhoto()" [disabled]="uploadingPhoto">
+          <mat-icon>save</mat-icon> {{ uploadingPhoto ? 'Uploading...' : 'Save Photo' }}
+        </button>
+      }
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="section">
+      <div class="section-title">
+        <mat-icon class="section-icon">lock</mat-icon>
+        <div>
+          <h3>Change Password</h3>
+          <p class="section-subtitle">Update your account password</p>
+        </div>
+      </div>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="onChangePassword()" class="password-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Current Password</mat-label>
+          <input matInput type="password" formControlName="currentPassword">
+          @if (passwordForm.get('currentPassword')?.hasError('required') && passwordForm.get('currentPassword')?.touched) {
+            <mat-error>Required</mat-error>
+          }
+        </mat-form-field>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>New Password</mat-label>
+            <input matInput type="password" formControlName="newPassword">
+            @if (passwordForm.get('newPassword')?.hasError('required') && passwordForm.get('newPassword')?.touched) {
+              <mat-error>Required</mat-error>
+            }
+            @if (passwordForm.get('newPassword')?.hasError('minlength') && passwordForm.get('newPassword')?.touched) {
+              <mat-error>Min 8 characters</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Confirm New Password</mat-label>
+            <input matInput type="password" formControlName="confirmNewPassword">
+            @if (passwordForm.get('confirmNewPassword')?.hasError('required') && passwordForm.get('confirmNewPassword')?.touched) {
+              <mat-error>Required</mat-error>
+            }
+            @if (passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmNewPassword')?.touched) {
+              <mat-error>Passwords do not match</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="passwordForm.invalid || saving">
+            <mat-icon>lock_reset</mat-icon> {{ saving ? 'Saving...' : 'Update Password' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
+}

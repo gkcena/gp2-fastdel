@@ -1,0 +1,21 @@
+@if (loading) {
+  <div class="spinner-wrap"><mat-spinner></mat-spinner></div>
+} @else {
+  <div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Overview of your delivery operations</p>
+  </div>
+  <div class="stats-grid">
+    @for (card of stats; track card.title) {
+      <div class="stat-card">
+        <div class="stat-icon" [style.background]="card.color + '14'" [style.color]="card.color">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </div>
+        <div class="stat-body">
+          <span class="stat-value">{{ card.value }}</span>
+          <span class="stat-label">{{ card.title }}</span>
+        </div>
+      </div>
+    }
+  </div>
+}

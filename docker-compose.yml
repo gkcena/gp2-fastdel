@@ -1,0 +1,60 @@
+services:
+
+  # ---- PostgreSQL Database ----
+  postgres:
+    image: postgres:16
+    container_name: fastdel-db
+    env_file: .env
+    environment:
+      POSTGRES_DB: fastdel
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # ---- Spring Boot Backend API ----
+  backend:
+    build: ./backend
+    container_name: fastdel-backend
+    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/fastdel
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      GOOGLE_MAPS_API_KEY: AIzaSyCMKrN559mpWa4Tk0fear3w2mc8U_uaSNw
+    ports:
+      - "8080:8080"
+    volumes:
+      - backend_uploads:/app/uploads
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # ---- Angular Admin Panel (Nginx) ----
+  web:
+    build: ./web
+    container_name: fastdel-web
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ---- Ionic Courier App (Dev Only) ----
+  mobile:
+    build: ./mobile
+    container_name: fastdel-mobile
+    ports:
+      - "8100:8100"
+    depends_on:
+      - backend
+    profiles:
+      - dev
+
+volumes:
+  postgres_data:
+  backend_uploads:

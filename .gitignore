@@ -1,0 +1,17 @@
+# Backend
+backend/target/
+backend/.mvn/
+
+# Web
+web/node_modules/
+web/dist/
+
+# Mobile
+mobile/node_modules/
+mobile/dist/
+mobile/android/
+mobile/ios/
+
+# Environment
+.env
+*.env.local
