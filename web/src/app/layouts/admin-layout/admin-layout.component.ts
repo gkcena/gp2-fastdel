@@ -5,6 +5,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../core/services/auth.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -17,6 +18,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class AdminLayoutComponent implements OnInit {
   readonly auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
 
   photoUrl: string | null = null;
 

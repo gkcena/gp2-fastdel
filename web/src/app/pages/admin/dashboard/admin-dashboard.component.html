@@ -1,21 +1,115 @@
-@if (loading) {
+@if (loading()) {
   <div class="spinner-wrap"><mat-spinner></mat-spinner></div>
 } @else {
-  <div class="page-header">
-    <h1 class="page-title">Dashboard</h1>
-    <p class="page-subtitle">Overview of your delivery operations</p>
-  </div>
-  <div class="stats-grid">
-    @for (card of stats; track card.title) {
-      <div class="stat-card">
-        <div class="stat-icon" [style.background]="card.color + '14'" [style.color]="card.color">
-          <mat-icon>{{ card.icon }}</mat-icon>
-        </div>
-        <div class="stat-body">
-          <span class="stat-value">{{ card.value }}</span>
-          <span class="stat-label">{{ card.title }}</span>
-        </div>
+  <div class="dashboard">
+    <div class="page-header">
+      <div class="header-text">
+        <h1 class="page-title">Operations Dashboard</h1>
+        <p class="page-subtitle">Real-time overview of delivery operations</p>
       </div>
-    }
+      <div class="header-badge">
+        <span class="live-dot"></span>
+        Live
+      </div>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="stats-grid">
+      @for (card of stats; track card.title) {
+        <div class="stat-card">
+          <div class="stat-accent" [style.background]="card.color"></div>
+          <div class="stat-content">
+            <div class="stat-top">
+              <span class="stat-label">{{ card.title }}</span>
+              <mat-icon class="stat-icon" [style.color]="card.color + '80'">{{ card.icon }}</mat-icon>
+            </div>
+            <span class="stat-value">{{ card.value }}</span>
+            <div class="stat-sparkline">
+              <div class="sparkline-bar" [style.background]="card.color + '40'"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Quick Stats Row -->
+    <div class="quick-stats">
+      <div class="quick-stat-item">
+        <mat-icon>today</mat-icon>
+        <span>Today's Deliveries: <strong>{{ todaysDeliveries }}</strong></span>
+      </div>
+      <div class="quick-stat-divider"></div>
+      <div class="quick-stat-item">
+        <mat-icon>error_outline</mat-icon>
+        <span>Failed Rate: <strong>{{ failedRate }}%</strong></span>
+      </div>
+      <div class="quick-stat-divider"></div>
+      <div class="quick-stat-item">
+        <mat-icon>assignment_return</mat-icon>
+        <span>Return Rate: <strong>{{ returnRate }}%</strong></span>
+      </div>
+    </div>
+
+    <!-- Order Status Breakdown -->
+    <div class="section">
+      <h2 class="section-title">Order Status Breakdown</h2>
+      <div class="status-grid">
+        @for (item of statusBreakdown; track item.status) {
+          <div class="status-card">
+            <div class="status-dot" [style.background]="item.color"></div>
+            <span class="status-name">{{ item.label }}</span>
+            <span class="status-count">{{ item.count }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Recent Orders Table -->
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Recent Orders</h2>
+        <a routerLink="/admin/orders" class="view-all-btn">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </div>
+      <div class="table-wrap">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Barcode</th>
+              <th>Customer</th>
+              <th>Address</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (order of recentOrders; track order.id) {
+              <tr>
+                <td class="mono">{{ order.barcode }}</td>
+                <td>{{ order.customerName }}</td>
+                <td class="address-cell">{{ order.deliveryAddress }}</td>
+                <td>
+                  <span
+                    class="status-badge"
+                    [style.background]="getStatusColor(order.status) + '20'"
+                    [style.color]="getStatusColor(order.status)"
+                    [style.border-color]="getStatusColor(order.status) + '40'"
+                  >
+                    {{ getStatusLabel(order.status) }}
+                  </span>
+                </td>
+                <td class="mono">{{ order.createdAt | date:'MMM d, y' }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="empty-row">No orders found</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 }

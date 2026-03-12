@@ -1,5 +1,6 @@
-import { Component, inject, NgZone, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { AdminUserService } from '../../../core/services/admin-user.service';
 import { environment } from '../../../../environments/environment';
@@ -22,17 +24,18 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './admin-profile.component.html',
   styleUrl: './admin-profile.component.scss'
 })
-export class AdminProfileComponent implements OnInit {
+export class AdminProfileComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly snackBar = inject(MatSnackBar);
   private readonly auth = inject(AuthService);
   private readonly adminService = inject(AdminUserService);
-  private readonly ngZone = inject(NgZone);
+  private readonly router = inject(Router);
+  private profileSub?: Subscription;
 
   userName = '';
   userEmail = '';
   saving = false;
-  loading = true;
+  loading = signal(true);
   uploadingPhoto = false;
 
   photoUrl: string | null = null;
@@ -56,21 +59,27 @@ export class AdminProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.adminService.getProfile().subscribe({
+    this.loadProfile();
+  }
+
+  ngOnDestroy(): void {
+    this.profileSub?.unsubscribe();
+  }
+
+  private loadProfile(): void {
+    this.loading.set(true);
+    this.profileSub?.unsubscribe();
+    this.profileSub = this.adminService.getProfile().subscribe({
       next: (profile) => {
-        this.ngZone.run(() => {
-          this.userName = profile.name;
-          this.userEmail = profile.email;
-          this.photoUrl = profile.profilePhotoUrl
-            ? environment.backendUrl + profile.profilePhotoUrl
-            : null;
-          this.loading = false;
-        });
+        this.userName = profile.name;
+        this.userEmail = profile.email;
+        this.photoUrl = profile.profilePhotoUrl
+          ? environment.backendUrl + profile.profilePhotoUrl
+          : null;
+        this.loading.set(false);
       },
       error: () => {
-        this.ngZone.run(() => {
-          this.loading = false;
-        });
+        this.loading.set(false);
       }
     });
   }

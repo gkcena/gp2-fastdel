@@ -1,5 +1,5 @@
-export const environment = {
-  production: true,
-  apiUrl: '/api/v1',
-  backendUrl: ''
-};
+  export const environment = {
+    production: true,
+    apiUrl: '/api/v1',
+    backendUrl: ''
+  };

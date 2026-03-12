@@ -47,6 +47,14 @@
     </div>
   </mat-sidenav>
   <mat-sidenav-content class="content">
-    <router-outlet />
+    <div class="topbar">
+      <button class="theme-toggle" (click)="theme.toggle()"
+        [attr.aria-label]="theme.isDark() ? 'Switch to light mode' : 'Switch to dark mode'">
+        <mat-icon>{{ theme.isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+    </div>
+    <div class="content-body">
+      <router-outlet />
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

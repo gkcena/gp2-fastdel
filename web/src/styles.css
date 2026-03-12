@@ -22,9 +22,14 @@
 
   --surface: #ffffff;
   --surface-hover: #f8fafc;
+  --surface-alt: #f8fafc;
   --bg: #f1f5f9;
   --border: #e2e8f0;
   --border-light: #f1f5f9;
+
+  --inset-bg: rgba(0, 0, 0, 0.03);
+  --stripe-bg: rgba(0, 0, 0, 0.02);
+  --subtle-track: rgba(0, 0, 0, 0.06);
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -36,6 +41,109 @@
 
   --transition: all 0.2s ease;
 }
+
+html[data-theme="dark"] {
+  --brand-bg: rgba(59, 130, 246, 0.15);
+
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --warning-bg: rgba(249, 115, 22, 0.15);
+  --error-bg: rgba(239, 68, 68, 0.15);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --surface: #1e293b;
+  --surface-hover: #334155;
+  --surface-alt: #162032;
+  --bg: #0f172a;
+  --border: #334155;
+  --border-light: #1e293b;
+
+  --inset-bg: rgba(0, 0, 0, 0.25);
+  --stripe-bg: rgba(0, 0, 0, 0.12);
+  --subtle-track: rgba(255, 255, 255, 0.04);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 6px rgba(0, 0, 0, 0.15), 0 10px 24px rgba(0, 0, 0, 0.35);
+
+  /* Material surfaces */
+  --mdc-filled-text-field-container-color: var(--surface-hover);
+  --mdc-outlined-text-field-outline-color: var(--border);
+  --mdc-dialog-container-color: var(--surface);
+  --mat-select-panel-background-color: var(--surface);
+  --mat-option-hover-state-layer-color: var(--surface-hover);
+  --mat-sidenav-content-background-color: var(--bg);
+  --mat-table-background-color: var(--surface);
+  --mat-menu-container-color: var(--surface);
+  --mdc-elevated-card-container-color: var(--surface);
+
+  /* Material card text */
+  --mat-card-title-text-color: var(--text-primary);
+  --mat-card-subtitle-text-color: var(--text-secondary);
+
+  /* Material tabs */
+  --mat-tab-header-active-label-text-color: var(--brand);
+  --mat-tab-header-inactive-label-text-color: var(--text-muted);
+  --mat-tab-header-active-focus-label-text-color: var(--brand);
+  --mat-tab-header-active-hover-label-text-color: var(--brand);
+  --mat-tab-header-inactive-hover-label-text-color: var(--text-secondary);
+  --mat-tab-header-inactive-focus-label-text-color: var(--text-secondary);
+
+  /* Material form fields — outlined */
+  --mdc-outlined-text-field-label-text-color: var(--text-secondary);
+  --mdc-outlined-text-field-input-text-color: var(--text-primary);
+  --mdc-outlined-text-field-focus-label-text-color: var(--brand);
+  --mdc-outlined-text-field-hover-label-text-color: var(--text-primary);
+  --mdc-outlined-text-field-focus-outline-color: var(--brand);
+  --mdc-outlined-text-field-hover-outline-color: var(--text-secondary);
+  --mdc-outlined-text-field-caret-color: var(--brand);
+
+  /* Material form fields — filled */
+  --mdc-filled-text-field-label-text-color: var(--text-secondary);
+  --mdc-filled-text-field-input-text-color: var(--text-primary);
+  --mdc-filled-text-field-focus-label-text-color: var(--brand);
+  --mdc-filled-text-field-hover-label-text-color: var(--text-primary);
+  --mdc-filled-text-field-caret-color: var(--brand);
+
+  /* Material select */
+  --mat-select-trigger-text-color: var(--text-primary);
+  --mat-select-enabled-arrow-color: var(--text-secondary);
+  --mat-select-focused-arrow-color: var(--brand);
+
+  /* Material option */
+  --mat-option-label-text-color: var(--text-primary);
+  --mat-option-selected-state-label-text-color: var(--brand);
+
+  /* Material divider */
+  --mat-divider-color: var(--border);
+
+  color-scheme: dark;
+}
+
+/* ── Dark-mode !important fallbacks for stubborn MDC internals ── */
+html[data-theme="dark"] .mat-mdc-card { background: var(--surface) !important; }
+html[data-theme="dark"] .mat-mdc-card-title { color: var(--text-primary) !important; }
+html[data-theme="dark"] .mat-mdc-card-subtitle { color: var(--text-secondary) !important; }
+html[data-theme="dark"] .mat-mdc-card h1,
+html[data-theme="dark"] .mat-mdc-card h2,
+html[data-theme="dark"] .mat-mdc-card h3,
+html[data-theme="dark"] .mat-mdc-card h4 { color: var(--text-primary); }
+html[data-theme="dark"] .mat-mdc-card p { color: var(--text-secondary); }
+html[data-theme="dark"] .mat-mdc-tab .mdc-tab__text-label { color: var(--text-muted) !important; }
+html[data-theme="dark"] .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label { color: var(--brand) !important; }
+html[data-theme="dark"] .mat-mdc-tab-header { background: var(--surface) !important; }
+html[data-theme="dark"] .mat-mdc-tab-body-wrapper { background: transparent !important; }
+html[data-theme="dark"] .mdc-text-field__input { color: var(--text-primary) !important; }
+html[data-theme="dark"] .mat-mdc-form-field .mdc-floating-label { color: var(--text-secondary) !important; }
+html[data-theme="dark"] .mat-mdc-form-field.mat-focused .mdc-floating-label { color: var(--brand) !important; }
+html[data-theme="dark"] .mat-mdc-dialog-container .mdc-dialog__surface { background: var(--surface) !important; }
+html[data-theme="dark"] .mat-mdc-dialog-content { color: var(--text-secondary) !important; }
+html[data-theme="dark"] .mat-mdc-stroked-button:not(.mat-primary) { color: var(--text-primary) !important; border-color: var(--border) !important; }
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #475569; }
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
 *, *::before, *::after {
   font-family: 'Inter', sans-serif;
